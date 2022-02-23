@@ -1,4 +1,4 @@
-import {ManPropsType} from "./Destructuring";
+import {ManPropsType} from "./07";
 
 let props: ManPropsType;
 
