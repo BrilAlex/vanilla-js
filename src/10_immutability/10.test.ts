@@ -1,18 +1,29 @@
 import {
-  addCompanyForUser, addNewBookForUser,
-  addNewBooksForUser, CompaniesType,
+  addCompanyForUser,
+  addNewBookForUser,
+  addNewBooksForUser,
+  CompaniesType,
   makeHairstyle,
   moveUser,
-  moveUserToAnotherHouse, removeUserBook, updateUserBook, updateUserCompany, updateUserCompanyAlt,
+  moveUserToAnotherHouse,
+  removeUserBook,
+  updateUserBook,
+  updateUserCompany,
+  updateUserCompanyAlt,
+  updateUserSkill,
   upgradeUserLaptop,
-  UserType, UserWithBooksType, UserWithCompaniesType,
-  UserWithLaptopType
+  UserType,
+  UserWithBooksType,
+  UserWithCompaniesType,
+  UserWithLaptopType,
+  UserWithSkillsType
 } from "./10";
 
 let user: UserType;
 let user2: UserWithLaptopType;
 let user3: UserWithLaptopType & UserWithBooksType;
 let user4: UserWithLaptopType & UserWithCompaniesType;
+let user5: UserWithSkillsType;
 
 beforeEach(() => {
   user = {
@@ -65,6 +76,17 @@ beforeEach(() => {
     },
     companies: [{id: 1, title: "Epam"}, {id: 2, title: "IT-Incubator"}],
   };
+
+  user5 = {
+    name: "Alex",
+    hairLength: 30,
+    address: {
+      city: "Fanipol",
+      street: "Mickevicha",
+      house: 12,
+    },
+    skillsLevel: [80, 80, 60, 50],
+  };
 });
 
 test("makeHairstyle function test", () => {
@@ -110,7 +132,6 @@ test("addNewBookForUser function test", () => {
   const userCopy = addNewBookForUser(user3, "ts");
 
   expect(user3).not.toBe(userCopy);
-  expect(user3.laptop).toBe(userCopy.laptop);
   expect(user3.address).toBe(userCopy.address);
   expect(user3.books).not.toBe(userCopy.books);
   expect(user3.books.length).toBe(4);
@@ -122,7 +143,6 @@ test("addNewBooksForUser function test", () => {
   const userCopy = addNewBooksForUser(user3, ["ts", "rest api"]);
 
   expect(user3).not.toBe(userCopy);
-  expect(user3.laptop).toBe(userCopy.laptop);
   expect(user3.address).toBe(userCopy.address);
   expect(user3.books).not.toBe(userCopy.books);
   expect(user3.books.length).toBe(4);
@@ -135,7 +155,6 @@ test("updateUserBook function test", () => {
   const userWithUpdatedBooks = updateUserBook(user3, "js", "ts");
 
   expect(user3).not.toBe(userWithUpdatedBooks);
-  expect(user3.laptop).toBe(userWithUpdatedBooks.laptop);
   expect(user3.address).toBe(userWithUpdatedBooks.address);
   expect(user3.books).not.toBe(userWithUpdatedBooks.books);
   expect(user3.books.length).toBe(4);
@@ -161,7 +180,6 @@ test("addCompanyForUser function test", () => {
   const userCopy = addCompanyForUser(user4, "Google");
 
   expect(user4).not.toBe(userCopy);
-  expect(user4.laptop).toBe(userCopy.laptop);
   expect(user4.address).toBe(userCopy.address);
   expect(user4.companies).not.toBe(userCopy.companies);
   expect(user4.companies.length).toBe(2);
@@ -196,4 +214,15 @@ test("updateUserCompany Alt function test", () => {
   expect(companies["Alex"]).toBe(companiesCopy["Alex"]);
   expect(companies["Dimych"][0].title).toBe("Epam");
   expect(companiesCopy["Dimych"][0].title).toBe("EPAM");
+});
+
+test("updateUserSkill function test", () => {
+  const userWithUpdatedSkills = updateUserSkill(user5, 50, 55);
+
+  expect(user5).not.toBe(userWithUpdatedSkills);
+  expect(user5.skillsLevel).not.toBe(userWithUpdatedSkills.skillsLevel);
+  expect(user5.skillsLevel.length).toBe(4);
+  expect(userWithUpdatedSkills.skillsLevel.length).toBe(4);
+  expect(user5.skillsLevel[3]).toBe(50);
+  expect(userWithUpdatedSkills.skillsLevel[3]).toBe(55);
 });

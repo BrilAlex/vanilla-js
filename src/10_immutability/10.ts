@@ -12,6 +12,8 @@ export type UserWithLaptopType = UserType & { laptop: LaptopType };
 
 export type UserWithBooksType = UserType & { books: Array<string> };
 
+export type UserWithSkillsType = UserType & { skillsLevel: Array<number> }
+
 type CompanyType = {
   id: number
   title: string
@@ -91,4 +93,8 @@ export function updateUserCompanyAlt(companies: CompaniesType, userName: string,
     ...companies,
     [userName]: companies[userName].map(c => c.id === company_ID ? {...c, title: newTitle} : c)
   };
+}
+
+export function updateUserSkill(user: UserWithSkillsType, oldLevel: number, newLevel: number) {
+  return {...user, skillsLevel: user.skillsLevel.map(sl => sl === oldLevel ? newLevel : sl)};
 }
